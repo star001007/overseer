@@ -67,9 +67,10 @@ func (mp *master) run() error {
 func (mp *master) checkBinary() error {
 	//get path to binary and confirm its writable
 	binPath := os.Getenv(envBinPath)
+	mp.debugf("get env binPath (%s)", binPath)
+
 	var err error
 	if binPath == "" {
-		mp.debugf("env binPath empty, query current path")
 		//get path to binary and confirm its writable
 		binPath, err = os.Executable()
 		if err != nil {
