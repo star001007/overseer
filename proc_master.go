@@ -66,10 +66,16 @@ func (mp *master) run() error {
 
 func (mp *master) checkBinary() error {
 	//get path to binary and confirm its writable
-	binPath, err := os.Executable()
-	if err != nil {
-		return fmt.Errorf("failed to find binary path (%s)", err)
+	binPath := os.Getenv(envBinPath)
+	var err error
+	if binPath == "" {
+		//get path to binary and confirm its writable
+		binPath, err = os.Executable()
+		if err != nil {
+			return fmt.Errorf("failed to find binary path (%s)", err)
+		}
 	}
+
 	mp.binPath = binPath
 	if info, err := os.Stat(binPath); err != nil {
 		return fmt.Errorf("failed to stat binary (%s)", err)
